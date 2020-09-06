@@ -14,3 +14,9 @@ In this class have created thread by extending thread class and accessed same in
 
 4) SynchronizationDemo2.java:
 In this class have created thread by implementing runnable interface and accessed same increment method by 2 threads but have used syncronized keyword to use shared resource. 
+
+5) InterThreadCommunication.java
+In this class, two threads are communicating with each other using wait and notify.
+
+6) EvenOdd.java
+In this class, two threads are printing even and odd numbers alternatively using inter thread commnunication.
