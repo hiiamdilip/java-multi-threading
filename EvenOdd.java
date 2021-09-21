@@ -59,3 +59,76 @@ class FindEvenOdd implements Runnable {
         }
     }  
 }
+
+
+
+package EvenOdd;
+
+public class Test {
+   public static void main(String[] args){
+       Operation operation = new Operation();
+       
+       Even e = new Even(operation);
+       Thread thread1 = new Thread(e, "Even");
+       thread1.start();
+       
+       Odd o = new Odd(operation);
+       Thread thread2 = new Thread(o, "Odd");
+       thread2.start();
+   }
+}
+
+class Even implements Runnable{
+    Operation operation;
+    
+    Even(Operation o){
+       this.operation = o; 
+    }
+    
+    @Override
+    public void run(){
+        for(int i =2; i<=10; i = i+2){
+           operation.printEven(i); 
+           try{Thread.sleep(1000);}catch(InterruptedException e){}
+        }
+    }
+}
+
+class Odd implements Runnable{
+    Operation operation;
+    
+    Odd(Operation o){
+       this.operation = o; 
+    }
+    
+    @Override
+    public void run(){
+       for(int i =1; i<=9; i = i+2){
+           operation.printOdd(i);
+           try{Thread.sleep(1000);}catch(InterruptedException e){}
+        } 
+    }
+}
+
+class Operation{
+   
+    boolean isValueSet = false;
+    
+    public synchronized void printEven(int num){
+        while(!isValueSet){
+            try{wait();}catch(InterruptedException e){}
+        }
+        System.out.println(Thread.currentThread().getName() + " is putting " +num);
+        isValueSet = false;
+        notify();
+    }
+    
+    public synchronized void printOdd(int num){
+        while(isValueSet){
+            try{wait();}catch(InterruptedException e){}
+        }
+        System.out.println(Thread.currentThread().getName() + " is putting " +num);
+        isValueSet = true;
+        notify();
+    }
+}
